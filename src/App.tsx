@@ -1,24 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Login from "./view/Login";
+import Register from "./view/Register";
+import Principal from "./view/Principal";
+import { ProtectedRoute } from "./view/ProtectedRoute";
+
+import { AuthProvider } from "./context/AuthContext";
+import './App.less';
 import './App.css';
 
 function App() {
+  // -------------- rutas y logica de las mismas  -------------- //
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ width: "100vw", height: "100vh" }}>
+      <React.Suspense fallback={<></>}>
+        <AuthProvider>
+          <Router>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/" element={<ProtectedRoute> <Principal /> </ProtectedRoute>} />
+            </Routes>
+          </Router>
+        </AuthProvider>
+      </React.Suspense>
     </div>
   );
 }
